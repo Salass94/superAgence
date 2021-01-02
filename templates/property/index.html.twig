@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Property index{% endblock %}
+
+{% block body %}
+    <h1>Property index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Area</th>
+                <th>Room</th>
+                <th>Bedroom</th>
+                <th>Type</th>
+                <th>Swimming_pool</th>
+                <th>Garden</th>
+                <th>Air_conditioner</th>
+                <th>Terrace</th>
+                <th>Garage</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for property in properties %}
+            <tr>
+                <td>{{ property.id }}</td>
+                <td>{{ property.title }}</td>
+                <td>{{ property.price }}</td>
+                <td>{{ property.area }}</td>
+                <td>{{ property.room }}</td>
+                <td>{{ property.bedroom }}</td>
+                <td>{{ property.type }}</td>
+                <td>{{ property.swimmingPool ? 'Yes' : 'No' }}</td>
+                <td>{{ property.garden ? 'Yes' : 'No' }}</td>
+                <td>{{ property.airConditioner ? 'Yes' : 'No' }}</td>
+                <td>{{ property.terrace ? 'Yes' : 'No' }}</td>
+                <td>{{ property.garage }}</td>
+                <td>
+                    <a href="{{ path('property_show', {'id': property.id}) }}">show</a>
+                    <a href="{{ path('property_edit', {'id': property.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('property_new') }}">Create new</a>
+{% endblock %}
