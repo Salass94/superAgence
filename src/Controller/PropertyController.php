@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
@@ -33,8 +34,20 @@ class PropertyController extends AbstractController
         $property = new Property();
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $images = $form->get('filename')->getData();
+
+            foreach ($images as $image) {
+               $fichier  = md5(uniqid()). '.'. $image->guessExtension();
+               $image->move(
+                   $this->getParameter('images_directory'),
+                   $fichier
+               );
+               $img = new Image;
+               $img->setImageName($fichier);
+               $property->addImage($img);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($property);
             $entityManager->flush();

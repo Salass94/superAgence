@@ -2,17 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\PropertyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\Timestampable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=PropertyRepository::class)
  * @ORM\Table(name="properties")
+ * @ORM\HasLifecycleCallbacks
  */
 class Property
 {
+    use Timestampable;
+
+    const TYPE = [
+        '1' => 'Maison',
+        '2' => 'Appartement'
+    ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -20,13 +30,16 @@ class Property
      */
     private $id;
 
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
 
+
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message =" Ce champs est ne peut pas etre vide");
      */
     private $price;
 
@@ -76,7 +89,8 @@ class Property
     private $garage;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="property", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="property",
+     *  orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
@@ -85,10 +99,12 @@ class Property
         $this->images = new ArrayCollection();
     }
 
+    
     public function getId(): ?int
     {
         return $this->id;
     }
+ 
 
     public function getTitle(): ?string
     {
@@ -152,6 +168,10 @@ class Property
 
     public function getType(): ?int
     {
+        if(!$this->type === null){
+
+            return $this::TYPE[$this->type];
+        }
         return $this->type;
     }
 

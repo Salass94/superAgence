@@ -2,14 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
+use App\Entity\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
+    use Timestampable;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -17,10 +23,21 @@ class Image
      */
     private $id;
 
+     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty="imageName")
+     * 
+     * @var File|null
+     */
+    private $imageFile;
+
     /**
      * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="imageName")
      */
-    private $name;
+
+    private $imageName;
 
     /**
      * @ORM\ManyToOne(targetEntity=Property::class, inversedBy="images")
@@ -33,17 +50,33 @@ class Image
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getImageName(): ?string
     {
-        return $this->name;
+        return $this->imageName;
     }
 
-    public function setName(string $name): self
+    public function setImageName(string $imageName): self
     {
-        $this->name = $name;
+        $this->imageName = $imageName;
 
         return $this;
     }
+    /** 
+    * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+    */
+   public function setImageFile(?File $imageFile = null): void
+   {
+       $this->imageFile = $imageFile;
+       if (null !== $imageFile) {
+           $this->setUpdatedAt(new \DateTimeImmutable);
+       }
+     
+   }
+
+   public function getImageFile(): ?File
+   {
+       return $this->imageFile;
+   }
 
     public function getProperty(): ?Property
     {
