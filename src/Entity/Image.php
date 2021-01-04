@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\Timestampable;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 
 
 /**

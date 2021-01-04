@@ -1,5 +1,25 @@
 {{form_start(form)}}
+    {# store the prototype on the data-prototype attribute #}
+    {{ form_row(form)}}
+    
+<ul id="property_images"
+        data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
+        data-widget-counter="{{ form.images|length }}">
+        {% for imageField in form.images %}
+        <li>
+            {{ form_errors(imageField) }}
+            {{ form_widget(imageField) }}
+        </li>
+        {% endfor %}
+    </ul>
+    <button type="button"
+    class="add-another-collection-widget"
+    data-list-selector="#property_images">Add another image</button>
 
-    {{form_widget(form)}}
-    <input type="submit" name="" value="{{ submitButtonText ?? 'Create Pin' }}" formnovalidate>
-{{form_rest(form)}}
+{# ... #}
+  
+    <input type="submit" name="" value="{{ submitButtonText ?? 'Enregister' }}" formnovalidate>
+{{form_end(form)}}
+ 
+<script src="/js/add-collection-widget.js"></script>

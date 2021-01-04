@@ -19,6 +19,7 @@ class PropertyType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
+                
                 'label' => 'Titre',
                 'help' => 'Ce champs est optionnel'
             ])
@@ -63,17 +64,17 @@ class PropertyType extends AbstractType
                 'label' => 'Garage',
                 'help' => 'Ce champs est optionnel'
             ])
-            ->add('filename', FileType::class, [
-                'label'=> false,
-                'multiple' => true,
-                'mapped' => false
-            ])
-            // ->add('images', CollectionType::class, [
-            //     'entry_type' => ImageType::class,
-            //     'allow_add' => true,
-            //     'allow_delete' => true,
-            //     'prototype' => true
+            // ->add('image', FileType::class, [
+            //     'label'=> false,
+            //     'multiple' => true,
+            //     'mapped' => false
             // ])
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+            ])
         ;
     }
 
@@ -81,6 +82,7 @@ class PropertyType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Property::class,
+           
         ]);
     }
 }

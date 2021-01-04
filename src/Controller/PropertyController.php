@@ -78,8 +78,19 @@ class PropertyController extends AbstractController
     {
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $images = $form->get('filename')->getData();
+
+            foreach ($images as $image) {
+                $fichier  = md5(uniqid()). '.'. $image->guessExtension();
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                $img = new Image;
+                $img->setImageName($fichier);
+                $property->addImage($img);
+             }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('property_index');
@@ -103,5 +114,21 @@ class PropertyController extends AbstractController
         }
 
         return $this->redirectToRoute('property_index');
+    }
+
+    /**
+     * @Route("/delete/image/{id}", name="property_delete_image", methods={"DELETE"})
+     */
+    public function deleteImage(Image $image, Request $request)
+    {
+        //On decode le contenu avec Json
+        $data = json_encode($request->getContent(), true);
+        //On verifie le token
+        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['token']))
+        {
+           $nom = $image->getName;
+            unlink($this->getParameter('images_directory').'/'.$nom);
+
+        }
     }
 }
