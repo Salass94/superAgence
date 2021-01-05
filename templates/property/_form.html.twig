@@ -1,5 +1,6 @@
 {{ form_start(form) }}
-<ul id="lol"
+
+<ul id="property_images"
         data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
         data-widget-tags="{{ '<li></li>'|e }}"
         data-widget-counter="{{ form.images|length }}">
@@ -12,7 +13,7 @@
     </ul>
     <button type="button"
     class="add-another-collection-widget"
-    data-list-selector="#lol">Add another image</button>
+    data-list-selector="#property_images">Add another image</button>
 
 {# ... #}
   

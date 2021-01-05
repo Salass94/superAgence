@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,13 +17,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PropertyController extends AbstractController
 {
+
+    private $repository;
+    private $em;
+
+    public function __construct(PropertyRepository $repository, EntityManagerInterface $em)
+    {   
+        $this->repository = $repository;
+        $this->em = $em;
+    }
     /**
      * @Route("/", name="property_index", methods={"GET"})
      */
-    public function index(PropertyRepository $propertyRepository): Response
+    public function index(): Response
     {
         return $this->render('property/index.html.twig', [
-            'properties' => $propertyRepository->findAll(),
+            'properties' => $this->repository->findAll(),
         ]);
     }
 
@@ -36,22 +46,12 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('filename')->getData();
 
-            foreach ($images as $image) {
-               $fichier  = md5(uniqid()). '.'. $image->guessExtension();
-               $image->move(
-                   $this->getParameter('images_directory'),
-                   $fichier
-               );
-               $img = new Image;
-               $img->setImageName($fichier);
-               $property->addImage($img);
-            }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($property);
-            $entityManager->flush();
 
+            $this->em->persist($property);
+            $this->em->flush();
+
+            $this->addFlash('succes', "La proprieté à étè bien ajouté !");
             return $this->redirectToRoute('property_index');
         }
 
@@ -78,20 +78,18 @@ class PropertyController extends AbstractController
     {
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $images = $form->get('filename')->getData();
 
-            foreach ($images as $image) {
-                $fichier  = md5(uniqid()). '.'. $image->guessExtension();
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                $img = new Image;
-                $img->setImageName($fichier);
-                $property->addImage($img);
-             }
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $images = $form->get('images')->getData();
+            foreach($images as $image)
+            {
+                
+                $property->addImage($image);
+                
+            }
+            $this->em->flush();
+            $this->addFlash('succes', "La proprieté à étè bien modifiée !");
 
             return $this->redirectToRoute('property_index');
         }
