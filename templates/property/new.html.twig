@@ -5,9 +5,9 @@
 {% block body %}
     <div class="container">
         <h1 class="h2 text-center my-5">Create new Property</h1>
-        {{ include('/layouts/partials/property/_form.html.twig') }}
+        {{ include('property/_form.html.twig') }}
     </div>
 
 
-    <a href="{{ path('property_index') }}">back to list</a>
+    {# <a href="{{ path('property_index') }}">back to list</a> #}
 {% endblock %}
