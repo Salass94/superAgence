@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/property")
- */
+
 class PropertyController extends AbstractController
 {
 
@@ -27,7 +25,7 @@ class PropertyController extends AbstractController
         $this->em = $em;
     }
     /**
-     * @Route("/", name="property_index", methods={"GET"})
+     * @Route("/", name="app_home", methods={"GET"})
      */
     public function index(): Response
     {
@@ -37,7 +35,7 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="property_new", methods={"GET","POST"})
+     * @Route("/property/new", name="property_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -62,7 +60,7 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="property_show", methods={"GET"})
+     * @Route("/property/show/{id}", name="property_show", methods={"GET"})
      */
     public function show(Property $property): Response
     {

@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends '/layouts/base.html.twig' %}
 
 {% block title %}New Property{% endblock %}
 
 {% block body %}
     <div class="container">
         <h1 class="h2 text-center my-5">Create new Property</h1>
-        {{ include('property/_form.html.twig') }}
+        {{ include('/layouts/partials/property/_form.html.twig') }}
     </div>
 
 

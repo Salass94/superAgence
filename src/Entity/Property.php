@@ -258,9 +258,7 @@ class Property
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
             $image->setProperty($this);
-            dd('dans if');
         }    
-        dd("lol");
         return $this;
     }
 
