@@ -24,13 +24,14 @@ class PropertyController extends AbstractController
         $this->repository = $repository;
         $this->em = $em;
     }
+
     /**
-     * @Route("/", name="app_home", methods={"GET"})
+     * @Route("/properties", name="property_index")
      */
-    public function index(): Response
+    public function list()
     {
         return $this->render('property/index.html.twig', [
-            'properties' => $this->repository->findAll(),
+            'properties' => $this->repository->findAll()
         ]);
     }
 
