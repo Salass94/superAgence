@@ -46,6 +46,9 @@ class PropertyController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
 
+            foreach ($property->getImages() as $image) {
+                $image->setProperty($property);
+            }
 
             $this->em->persist($property);
             $this->em->flush();
@@ -71,7 +74,7 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="property_edit", methods={"GET","POST"})
+     * @Route("/property/{id}/edit", name="property_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Property $property): Response
     {
@@ -80,12 +83,8 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $images = $form->get('images')->getData();
-            foreach($images as $image)
-            {
-                
-                $property->addImage($image);
-                
+            foreach ($property->getImages() as $image) {
+                $image->setProperty($property);
             }
             $this->em->flush();
             $this->addFlash('succes', "La proprieté à étè bien modifiée !");
