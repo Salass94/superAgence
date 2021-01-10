@@ -11,11 +11,11 @@
 	</head>
 	<body>
 
-		{{ include("layouts/_header.html.twig") }}
+		{{ include("layouts/partials/_nav.html.twig") }}
 
 		{% block body %}{% endblock %}
 
-		{{ include("layouts/_footer.html.twig") }}
+		{{ include("layouts/partials/_footer.html.twig") }}
 
 		<div id="ftco-loader" class="show fullscreen">
 			<svg class="circular" width="48px" height="48px">
@@ -37,9 +37,10 @@
 		<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
         <script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
 		<script src="{{ asset('js/scrollax.min.js') }}"></script>
-		{# // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> #}
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 		<script src="{{ asset('js/google-map.js') }}"></script>
-        <script src="{{ asset('js/main.js') }}"></script>
+		<script src="{{ asset('js/main.js') }}"></script>
+		
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

@@ -1,0 +1,15 @@
+import './node_modules/aos.js.js';
+import './node_modules/bootstrap-datepicker.js.js';
+import './node_modules/google-map.js.js';
+import './node_modules/jquery-3.2.1.min.js.js';
+import './node_modules/jquery-migrate-3.0.1.min.js.js';
+import './node_modules/jquery.animateNumber.min.js.js';
+import './node_modules/jquery.easing.1.3.js.js';
+import './node_modules/jquery.magnific-popup.min.js.js';
+import './node_modules/jquery.stellar.min.js.js';
+import './node_modules/jquery.timepicker.min.js.js';
+import './node_modules/jquery.waypoints.min.js.js';
+import './node_modules/main.js.js';
+import './node_modules/range.js.js';
+import './node_modules/scrollax.min.js.js';
+import './node_modules/popper.min.js.js';

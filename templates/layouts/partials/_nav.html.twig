@@ -28,7 +28,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	<div class="container">
-		<a class="navbar-brand" href="{{ path('app_home') }}">Royal<span>estate</span>
+		<a class="navbar-brand" href="{{ path('app_home') }}">Mauri<span>estate</span>
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="oi oi-menu"></span>
@@ -41,31 +41,36 @@
 					<a href="{{ path('app_home') }}" class="nav-link">Home</a>
 				</li>
 				<li class="nav-item">
-					<a href="{{ path('property_index')}}" class="nav-link">Property</a>
+					<a href="{{ path('app_properties')}}" class="nav-link">Property</a>
 				</li>
 				<li class="nav-item">
-					<a href="agents.html" class="nav-link">Agents</a>
+					<a href="{{ path('agent')}}" class="nav-link">Agents</a>
 				</li>
 				<li class="nav-item">
 					<a href="{{ path('about') }}" class="nav-link">About</a>
 				</li>
 				<li class="nav-item">
-					<a href="blog.html" class="nav-link">Blog</a>
+					<a href="{{ path('blog')}}" class="nav-link">Blog</a>
 				</li>
 				<li class="nav-item">
 					<a href="{{ path('contact') }}" class="nav-link">Contact</a>
 				</li>
-				<li class="nav-item cta">
-					<a href="contact.html" class="nav-link ml-lg-2">
-						<span class="icon-user"></span>
-						Sign-In</a>
-				</li>
-				<li class="nav-item cta cta-colored">
-					<a href="contact.html" class="nav-link">
-						<span class="icon-pencil"></span>
-						Sign-Up</a>
-				</li>
-
+				{% if app.user %}
+					<li class="nav-items">
+						<a href="#">Account</a>
+					</li>
+				{% else %}
+					<li class="nav-item cta">
+						<a href="#" class="nav-link ml-lg-2">
+							<span class="icon-user"></span>
+							Sign-In</a>
+					</li>
+					<li class="nav-item cta cta-colored">
+						<a href="#" class="nav-link">
+							<span class="icon-pencil"></span>
+							Sign-Up</a>
+					</li>
+				{% endif %}
 			</ul>
 		</div>
 	</div>

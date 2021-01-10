@@ -25,12 +25,22 @@ class PropertyController extends AbstractController
         $this->em = $em;
     }
 
+
+      /**
+     * @Route("/", name="app_home")
+     */
+    public function index()
+    {
+        return $this->render('/layouts/property/index.html.twig', [
+            'properties' => $this->repository->findAll()
+        ]);
+    }
     /**
-     * @Route("/properties", name="property_index")
+     * @Route("/property", name="app_properties")
      */
     public function list()
     {
-        return $this->render('property/index.html.twig', [
+        return $this->render('/layouts/property/properties.html.twig', [
             'properties' => $this->repository->findAll()
         ]);
     }
@@ -57,7 +67,7 @@ class PropertyController extends AbstractController
             return $this->redirectToRoute('property_index');
         }
 
-        return $this->render('property/new.html.twig', [
+        return $this->render('/layouts/property/new.html.twig', [
             'property' => $property,
             'form' => $form->createView(),
         ]);
@@ -68,13 +78,13 @@ class PropertyController extends AbstractController
      */
     public function show(Property $property): Response
     {
-        return $this->render('property/show.html.twig', [
+        return $this->render('/layouts/property/show.html.twig', [
             'property' => $property,
         ]);
     }
 
     /**
-     * @Route("/property/{id}/edit", name="property_edit", methods={"GET","POST"})
+     * @Route("/property/edit/{id}", name="property_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Property $property): Response
     {
@@ -83,16 +93,19 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // dd($property);
             foreach ($property->getImages() as $image) {
+                dd($image);
+                
                 $image->setProperty($property);
             }
             $this->em->flush();
-            $this->addFlash('succes', "La proprieté à étè bien modifiée !");
+            $this->addFlash('success', "La proprieté à étè bien modifiée !");
 
-            return $this->redirectToRoute('property_index');
+            return $this->redirectToRoute('app_properties');
         }
 
-        return $this->render('property/edit.html.twig', [
+        return $this->render('/layouts/property/edit.html.twig', [
             'property' => $property,
             'form' => $form->createView(),
         ]);
@@ -112,19 +125,50 @@ class PropertyController extends AbstractController
         return $this->redirectToRoute('property_index');
     }
 
-    /**
-     * @Route("/delete/image/{id}", name="property_delete_image", methods={"DELETE"})
-     */
-    public function deleteImage(Image $image, Request $request)
-    {
-        //On decode le contenu avec Json
-        $data = json_encode($request->getContent(), true);
-        //On verifie le token
-        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['token']))
-        {
-           $nom = $image->getName;
-            unlink($this->getParameter('images_directory').'/'.$nom);
 
-        }
+     /**
+     * @Route("/agent", name="agent")
+     */
+    public function agent(): Response
+    {
+        return $this->render('/layouts/agent.html.twig');
     }
+     /**
+     * @Route("/about", name="about")
+     */
+    public function about(): Response
+    {
+        return $this->render('/layouts/about.html.twig');
+    }
+     /**
+     * @Route("/blog", name="blog")
+     */
+    public function blog(): Response
+    {
+        return $this->render('/layouts/blog.html.twig');
+    }
+     /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact(): Response
+    {
+        return $this->render('/layouts/contact.html.twig');
+    }
+   
+
+    // /**
+    //  * @Route("/delete/image/{id}", name="property_delete_image", methods={"DELETE"})
+    //  */
+    // public function deleteImage(Image $image, Request $request)
+    // {
+    //     //On decode le contenu avec Json
+    //     $data = json_encode($request->getContent(), true);
+    //     //On verifie le token
+    //     if($this->isCsrfTokenValid('delete'.$image->getId(), $data['token']))
+    //     {
+    //        $nom = $image->getName;
+    //         unlink($this->getParameter('images_directory').'/'.$nom);
+
+    //     }
+    // }
 }

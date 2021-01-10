@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Form\ImageType;
 use App\Entity\Property;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,60 +20,57 @@ class PropertyType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                
-                'label' => 'Titre',
-                'help' => 'Ce champs est optionnel'
+                'label' => 'Title',
             ])
             ->add('price',IntegerType::class, [
-                'label' => 'Prix',
-                'help' => 'Le prix en mru'
+                'label' => 'Price',
             ])
             ->add('area', IntegerType::class, [
-                'label' => 'Surface',
-                'help' => 'Surface en m²'
+                'label' => 'Area',
             ])
             ->add('room', IntegerType::class, [
-                'label' => 'Chambre',
+                'label' => 'Room',
             ])
             ->add('bedroom', IntegerType::class, [
-                'label' => 'Chambre à coucher',
+                'label' => 'Bedroom',
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'Maison' => '1',
+                    'House' => '1',
                     'Appartement' => '2'
                 ],
-                'label' => 'Type de logement',
+                'label' => 'Type Property',
             ])
-            // ->add('swimming_pool', BooleanType::class,[
-            //     'label' => 'Piscine',
-            //     'help' => 'Ce champs est optionnel'
-            // ])
-            // ->add('garden', BooleanType::class,[
-            //     'label' => 'Jardin',
-            //     'help' => 'Ce champs est optionnel'
-            // ])
-            // ->add('air_conditioner', BooleanType::class,[
-            //     'label' => 'Climatisation',
-            //     'help' => 'Ce champs est optionnel'
-            // ])
-            // ->add('terrace', BooleanType::class,[
-            //     'label' => 'Terrasse',
-            //     'help' => 'Ce champs est optionnel'
-            // ])
+            ->add('swimming_pool', CheckboxType::class,[
+                'required' => false,
+                'label' => 'Swimming_pool',
+                'help' => 'Field optional'
+            ])
+            ->add('garden', CheckboxType::class,[
+                'required' => false,
+                'label' => 'Garden',
+                'help' => 'Field optional'
+            ])
+            ->add('air_conditioner', CheckboxType::class,[
+                'required' => false,
+                'label' => 'Air conditioner',
+                'help' => 'Field optional'
+            ])
+            ->add('terrace', CheckboxType::class,[
+                'required' => false,
+                'label' => 'Terrace',
+                'help' => 'Field optional'
+            ])
             ->add('garage', IntegerType::class,[
                 'label' => 'Garage',
-                'help' => 'Ce champs est optionnel'
+                'help' => 'Field optional'
             ])
-            // ->add('image', FileType::class, [
-            //     'label'=> false,
-            //     'multiple' => true,
-            //     'mapped' => false
-            // ])
+        
             ->add('images', CollectionType::class, [
+                'label'=> false,
                 'entry_type' => ImageType::class,
                 'allow_add' => true,
-                'allow_delete' => true,
+                // 'allow_delete' => true,
                 'prototype' => true,
             ])
         ;

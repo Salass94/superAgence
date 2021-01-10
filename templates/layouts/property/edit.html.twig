@@ -1,0 +1,12 @@
+{% extends '/layouts/base.html.twig' %}
+
+{% block title 'Edit Property'%}
+
+{% block body %}
+
+    {{ include('/layouts/partials/_img_bg_head.html.twig', {head: 'Edit Poperty'})}}
+    {{ include('/layouts/partials/_form.html.twig', {submitButtonText: 'Update'}) }}
+
+
+    {# {{ include('/property/_delete_form.html.twig') }} #}
+{% endblock %}

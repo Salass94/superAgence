@@ -1,0 +1,72 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 mx-auto p-3 ftco-search rounded text-muted">
+			<div class="icon text-center mb-5">
+				<span class="flaticon-house" style="font-size: 6rem; color:#fff;"></span>
+				<h1 class="h3 text-center text-white">{{ submitButtonText}} Property</h1>
+			</div>
+			{{form_start(form)}}
+			<div class="row">
+				<div class="col-md-4">
+					{{form_row(form.title)}}
+				</div>
+				<div class="col-md-3">
+					{{form_row(form.type)}}
+				</div>
+				<div class="col-md-2">
+					{{form_row(form.garage)}}
+				</div>
+				
+				<div class="col-md-2">
+					{{form_row(form.area)}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					{{form_row(form.room)}}
+				</div>
+				<div class="col-md-2">
+					{{form_row(form.bedroom)}}
+				</div>
+				<div class="col-md-3">
+					{{form_row(form.price)}}
+				</div>
+				<div class="col-md-2">
+					{{form_row(form.garden)}}
+				</div>
+				<div class="col-md-2">
+					{{form_row(form.swimming_pool)}}
+				</div>
+			
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					{{form_row(form.terrace)}}
+				</div>
+				<div class="col-md-3">
+					{{form_row(form.air_conditioner)}}
+				</div>
+			</div>
+			<div class="row">
+				<ul class="d-flex nav" id="property_images"
+					data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+					data-widget-tags="{{ '<li></li>'|e }}"
+					data-widget-counter="{{ form.images|length }}">
+					{% for imageField in form.images %}
+					<li class="nav-item">
+						{{ form_errors(imageField) }}
+						{{ form_widget(imageField) }}
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="d-flex justify-content-between">
+				<button
+				class="add-another-collection-widget" data-list-selector="#property_images">Add another image</button>
+				<input class="btn text-white"style="background:#ff8f56;" type="submit" name="" value="{{ submitButtonText ?? 'Enregister' }}">
+			</div>
+			{{form_end(form)}}
+		</div>
+	</div>
+
+</div>

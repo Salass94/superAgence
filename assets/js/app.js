@@ -9,15 +9,19 @@
 import '../scss/app.scss';
 
 
+
 // start the Stimulus application
 // import 'https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous';
 import $ from 'jquery';
+
+// import './js/style.js';
 // import './js';
 import 'bootstrap';
 
 jQuery(document).ready(function () {
     jQuery('.add-another-collection-widget').click(function (e) {
         var list = jQuery(jQuery(this).attr('data-list-selector'));
+        alert('hello');
         // Try to find the counter of the list or use the length of the list
         var counter = list.data('widget-counter') || list.children().length;
 

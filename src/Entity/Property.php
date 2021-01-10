@@ -169,12 +169,8 @@ class Property
         return $this;
     }
 
-    public function getType(): ?int
-    {
-        if(!$this->type === null){
-
-            return $this::TYPE[$this->type];
-        }
+    public function getType(): ?string
+    {  
         return $this->type;
     }
 

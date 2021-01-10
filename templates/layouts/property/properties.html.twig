@@ -1,0 +1,318 @@
+{% extends '/layouts/base.html.twig' %}
+
+{% block title 'All Properties'%}
+
+{% block body %}
+
+
+{{ include('/layouts/partials/_img_bg_head.html.twig', {head : 'property'}) }}
+       
+    {% include "/layouts/partials/_ftco_search.html.twig" %}
+    
+    <section class="ftco-section bg-light">
+    	<div class="container">
+			
+				{% for row in properties|batch(3) %}
+					<div class="row">
+						{% for property in row %}
+							
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show', {id: property.id})}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-1.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show', {id: property.id})}}">{{ property.title }}</a></h3>
+											<p>{{ property.type }}</p>
+										</div>
+										<div class="two">
+											<span class="price"{{ property.price }}</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> {{property.area}} sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> {{property.room }}</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+
+						{# <div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-2.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$20,000</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-3.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status rent">Rent</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$800 <small>/ month</small></span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-4.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$20,000</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-5.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$20,000</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-6.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$20,000</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-7.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status rent">Rent</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$899 <small>/ month</small></span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-8.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$20,000</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 ftco-animate">
+							<div class="properties">
+								<a href="{{path('property_show')}}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url(images/properties-9.jpg);">
+									<div class="icon d-flex justify-content-center align-items-center">
+										<span class="icon-search2"></span>
+									</div>
+								</a>
+								<div class="text p-3">
+									<span class="status sale">Sale</span>
+									<div class="d-flex">
+										<div class="one">
+											<h3><a href="{{path('property_show')}}">North Parchmore Street</a></h3>
+											<p>Apartment</p>
+										</div>
+										<div class="two">
+											<span class="price">$20,000</span>
+										</div>
+									</div>
+									<p>Far far away, behind the word mountains, far from the countries</p>
+									<hr>
+									<p class="bottom-area d-flex">
+										<span><i class="flaticon-selection"></i> 250sqft</span>
+										<span class="ml-auto"><i class="flaticon-bathtub"></i> 3</span>
+										<span><i class="flaticon-bed"></i> 4</span>
+									</p>
+								</div>
+							</div>
+						</div> #}
+					</div>
+				{% endfor %}
+				
+			
+    		<div class="row mt-5">
+          <div class="col text-center">
+            <div class="block-27">
+              <ul>
+                <li><a href="#">&lt;</a></li>
+                <li class="active"><span>1</span></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">&gt;</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    	</div>
+    </section>
+		
+	<section class="ftco-section-parallax">
+      <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+              <h2>Subcribe to our Newsletter</h2>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+              <div class="row d-flex justify-content-center mt-5">
+                <div class="col-md-8">
+                  <form action="#" class="subscribe-form">
+                    <div class="form-group d-flex">
+                      <input type="text" class="form-control" placeholder="Enter email address">
+                      <input type="submit" value="Subscribe" class="submit px-3">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}
