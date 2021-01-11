@@ -47,24 +47,43 @@
 					{{form_row(form.air_conditioner)}}
 				</div>
 			</div>
-			<div class="row">
+		
+			{# <div class="row">
 				<ul class="d-flex nav" id="property_images"
-					data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+					data-prototype="{{ form_widget(form.imageFile.vars.prototype)|e }}"
 					data-widget-tags="{{ '<li></li>'|e }}"
-					data-widget-counter="{{ form.images|length }}">
-					{% for imageField in form.images %}
+					data-widget-counter="{{ form.imageFile|length }}">
+					{% for imageField in form.imageFile %}
 					<li class="nav-item">
 						{{ form_errors(imageField) }}
 						{{ form_widget(imageField) }}
 					</li>
 					{% endfor %}
 				</ul>
-			</div>
-			<div class="d-flex justify-content-between">
 				<button
 				class="add-another-collection-widget" data-list-selector="#property_images">Add another image</button>
-				<input class="btn text-white"style="background:#ff8f56;" type="submit" name="" value="{{ submitButtonText ?? 'Enregister' }}">
 			</div>
+			 #}
+		{% if app.request.attributes.get('_route') == 'property_edit' %}
+			<h2 class="text-center mb-3 text-white">Images</h2>
+			<div class="row">
+				{% for image in property.images %}
+					<div class="col-md-4">
+						<img src="{{ asset('/images/uploads/' ~ image.imageName )}}" alt="image" width="200">
+						<a class=" btn-danger p-2" href="{{ path('property_delete_image', {id: image.id}) }}" 
+						data-delete data-token="{{ csrf_token('delete' ~ image.id)}}"
+						>Delete</a>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+			<div class="d-flex justify-content-between">
+				<div class="col-md-3">
+					{{form_row(form.imageFile)}}
+				</div>
+				<input class="btn text-white"style="background:#ff8f56;" type="submit" name="" value="{{ submitButtonText ?? 'Enregister' }}" formnovalidate>
+			</div>
+	
 			{{form_end(form)}}
 		</div>
 	</div>

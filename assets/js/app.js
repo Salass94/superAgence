@@ -21,7 +21,6 @@ import 'bootstrap';
 jQuery(document).ready(function () {
     jQuery('.add-another-collection-widget').click(function (e) {
         var list = jQuery(jQuery(this).attr('data-list-selector'));
-        alert('hello');
         // Try to find the counter of the list or use the length of the list
         var counter = list.data('widget-counter') || list.children().length;
 
@@ -41,3 +40,38 @@ jQuery(document).ready(function () {
         newElem.appendTo(list);
     });
 });
+
+window.onload = ()  => {
+    // grap the button links 
+    let links = document.querySelectorAll("[data-delete]");
+
+    for (let link of links) {
+        link.addEventListener("click", function (e) {
+            // We prevent the navigation
+            e.preventDefault()
+            if (confirm("Are sur you want to delete this image ?")) {
+                //Sending Ajax request to the href
+                fetch(this.getAttribute("href"), {
+                    //On methode DELETE
+                    method: "DELETE",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ "_token": this.dataset.token })
+                    
+                }).then(
+                    response => response.json()
+                ).then(data => {
+                   
+                    if (data.success)
+                        this.parentElement.remove()
+                    else                        
+                        alert(data.error)
+                }).catch(e => alert(e))
+            }
+        })
+    }
+
+  
+}

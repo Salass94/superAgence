@@ -35,11 +35,8 @@ class PropertyType extends AbstractType
                 'label' => 'Bedroom',
             ])
             ->add('type', ChoiceType::class, [
-                'choices' => [
-                    'House' => '1',
-                    'Appartement' => '2'
-                ],
-                'label' => 'Type Property',
+                'choices' => $this->getChoices(),
+                
             ])
             ->add('swimming_pool', CheckboxType::class,[
                 'required' => false,
@@ -66,13 +63,20 @@ class PropertyType extends AbstractType
                 'help' => 'Field optional'
             ])
         
-            ->add('images', CollectionType::class, [
-                'label'=> false,
-                'entry_type' => ImageType::class,
-                'allow_add' => true,
-                // 'allow_delete' => true,
-                'prototype' => true,
-            ])
+            ->add('images', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required'=> false,
+            ]);
+            
+            // ->add('imageFile', CollectionType::class, [
+            //     'label'=> false,
+            //     'entry_type' => ImageType::class,
+            //     'allow_add' => true,
+            //     'prototype' => true,
+            //     'mapped' => false,
+            // ])
         ;
     }
 
@@ -83,4 +87,14 @@ class PropertyType extends AbstractType
            
         ]);
     }
+
+    private function getChoices()
+    {
+        $choices =[];
+        foreach (Property::TYPE as $key => $value) {
+            $choices[$value] = $key;
+        }
+        return $choices;
+    }
+ 
 }

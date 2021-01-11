@@ -23,8 +23,9 @@ class Property
     use Timestampable;
 
     const TYPE = [
-        '1' => 'Maison',
-        '2' => 'Appartement'
+        1 => 'House',
+        2 => 'Apartement',
+        3 => 'Studio',
     ];
     /**
      * @ORM\Id
@@ -170,7 +171,7 @@ class Property
     }
 
     public function getType(): ?string
-    {  
+    { 
         return $this->type;
     }
 
@@ -269,4 +270,11 @@ class Property
 
         return $this;
     }
+
+    public function getTypeString()
+    {
+        return $this::TYPE[$this->getType()];
+    }
+
+
 }

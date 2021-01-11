@@ -7,10 +7,11 @@ use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class PropertyController extends AbstractController
@@ -56,15 +57,30 @@ class PropertyController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
 
-            foreach ($property->getImages() as $image) {
-                $image->setProperty($property);
-            }
 
+            $images = $form->get('images')->getData();
+
+            foreach($images as $image){
+                $file = md5(uniqid()).'.'.$image->guessExtension();
+
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $file
+                );
+                $img = new Image;
+                $img->setImageName($file);
+                $property->addImage($img);
+
+            }
+            
             $this->em->persist($property);
             $this->em->flush();
-
+            
             $this->addFlash('succes', "La proprieté à étè bien ajouté !");
-            return $this->redirectToRoute('property_index');
+            return $this->redirectToRoute('app_properties');
+                    // foreach ($property->getImages() as $image) {
+                    //     $image->setProperty($property);
+                    // }
         }
 
         return $this->render('/layouts/property/new.html.twig', [
@@ -92,17 +108,29 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
+            $images = $form->get('images')->getData();
 
-            // dd($property);
-            foreach ($property->getImages() as $image) {
-                dd($image);
-                
-                $image->setProperty($property);
+            if($images){
+                foreach($images as $image){
+                    $file = md5(uniqid()).'.'.$image->guessExtension();
+    
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $file
+                    );
+                    $img = new Image;
+                    $img->setImageName($file);
+                    $property->addImage($img);
+    
+                }
             }
+           
             $this->em->flush();
             $this->addFlash('success', "La proprieté à étè bien modifiée !");
-
+            
             return $this->redirectToRoute('app_properties');
+              
         }
 
         return $this->render('/layouts/property/edit.html.twig', [
@@ -156,19 +184,28 @@ class PropertyController extends AbstractController
     }
    
 
-    // /**
-    //  * @Route("/delete/image/{id}", name="property_delete_image", methods={"DELETE"})
-    //  */
-    // public function deleteImage(Image $image, Request $request)
-    // {
-    //     //On decode le contenu avec Json
-    //     $data = json_encode($request->getContent(), true);
-    //     //On verifie le token
-    //     if($this->isCsrfTokenValid('delete'.$image->getId(), $data['token']))
-    //     {
-    //        $nom = $image->getName;
-    //         unlink($this->getParameter('images_directory').'/'.$nom);
+    /**
+     * @Route("/delete/image/{id}", name="property_delete_image", methods={"DELETE"})
+     */
+    public function deleteImage(Image $image, Request $request)
+    {
+        //On decode le contenu avec Json
+        $data = json_decode($request->getContent(), true);
+        
+        //On verifie le token
+        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token']))
+        {
+           $nom = $image->getImageName(); 
+            unlink($this->getParameter('images_directory').'/'.$nom);
 
-    //     }
-    // }
+            $this->em->remove($image);
+            $this->em->flush();
+            // $this->addFlash('success', "l'image a étè bien supprimée !");
+            return new JsonResponse(['success' => 1]);
+        }else{
+            return new JsonResponse(['error' => 'Invalid token'], 400);
+        }
+
+        
+    }
 }
